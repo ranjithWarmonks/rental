@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rental/features/auth/models/auth_models.dart';
+import 'package:rental/shared/localization/app_language_controller.dart';
 import 'package:rental/shared/services/location_service.dart';
 import 'package:rental/shared/theme/app_color.dart';
 import 'package:rental/shared/widgets/app_text.dart';
@@ -269,6 +270,8 @@ class _LocationsViewState extends State<LocationsView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -278,7 +281,7 @@ class _LocationsViewState extends State<LocationsView> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const AppText.h2('Store & Godown Locations', fontSize: 18),
+        title: AppText.h2(lang.text('store_locations'), fontSize: 18),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded, color: primaryColor),

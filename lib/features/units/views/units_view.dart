@@ -4,6 +4,8 @@ import 'package:rental/shared/widgets/app_text_field.dart';
 import '../models/unit_model.dart';
 import '../services/unit_service.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class UnitsView extends StatefulWidget {
   const UnitsView({super.key});
 
@@ -105,6 +107,7 @@ class _UnitsViewState extends State<UnitsView> {
             SnackBar(
               content: Text('Unit "${unit.name}" deleted successfully.', style: const TextStyle(fontFamily: 'Urbanist')),
               backgroundColor: buttonColor1,
+              behavior: SnackBarBehavior.floating,
             ),
           );
           _loadUnits(_searchController.text.trim());
@@ -125,6 +128,8 @@ class _UnitsViewState extends State<UnitsView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -134,9 +139,9 @@ class _UnitsViewState extends State<UnitsView> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Units of Measure',
-          style: TextStyle(
+        title: Text(
+          lang.text('units'),
+          style: const TextStyle(
             fontFamily: 'Urbanist',
             fontWeight: FontWeight.bold,
             fontSize: 20,

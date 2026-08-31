@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rental/shared/theme/app_color.dart';
 import 'package:rental/shared/widgets/app_dialog.dart';
 import 'package:rental/shared/widgets/app_text.dart';
+import 'package:rental/shared/localization/app_language_controller.dart';
 import '../models/app_notification_model.dart';
 import '../services/notification_service.dart';
 
@@ -146,6 +147,7 @@ class _NotificationsViewState extends State<NotificationsView> {
   @override
   Widget build(BuildContext context) {
     final unreadCount = _notifications.where((n) => !n.isRead).length;
+    final lang = AppLanguageController();
 
     return Scaffold(
       backgroundColor: scaffoldColor,
@@ -158,7 +160,7 @@ class _NotificationsViewState extends State<NotificationsView> {
         ),
         title: Row(
           children: [
-            const AppText.h2('Notifications', fontSize: 20),
+            AppText.h2(lang.text('notifications'), fontSize: 20),
             if (unreadCount > 0) ...[
               const SizedBox(width: 8),
               Container(

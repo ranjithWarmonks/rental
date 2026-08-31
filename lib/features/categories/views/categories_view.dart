@@ -4,6 +4,8 @@ import 'package:rental/shared/widgets/app_text_field.dart';
 import '../models/category_model.dart';
 import '../services/category_service.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class CategoriesView extends StatefulWidget {
   const CategoriesView({super.key});
 
@@ -126,6 +128,8 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -135,9 +139,9 @@ class _CategoriesViewState extends State<CategoriesView> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Categories',
-          style: TextStyle(
+        title: Text(
+          lang.text('item_categories'),
+          style: const TextStyle(
             fontFamily: 'Urbanist',
             fontWeight: FontWeight.bold,
             fontSize: 20,

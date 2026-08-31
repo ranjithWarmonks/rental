@@ -5,6 +5,7 @@ import 'package:rental/shared/widgets/app_button.dart';
 import 'package:rental/shared/widgets/app_text.dart';
 import 'package:rental/shared/widgets/app_text_field.dart';
 import 'package:rental/shared/utils/form_validators.dart';
+import 'package:rental/shared/localization/app_language_controller.dart';
 import '../controllers/rental_bloc.dart';
 import '../controllers/rental_event.dart';
 import '../models/rental_model.dart';
@@ -144,6 +145,7 @@ class _RentalSummaryViewContentState extends State<_RentalSummaryViewContent> {
   Widget build(BuildContext context) {
     final r = widget.rental;
     final totalDue = r.totalAmount + r.securityDeposit;
+    final lang = AppLanguageController();
 
     return Scaffold(
       backgroundColor: scaffoldColor,
@@ -154,8 +156,8 @@ class _RentalSummaryViewContentState extends State<_RentalSummaryViewContent> {
           icon: const Icon(Icons.arrow_back, color: primaryColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const AppText.h2(
-          'Summary & Payment',
+        title: AppText.h2(
+          lang.text('proceed_summary'),
           fontSize: 20,
         ),
       ),

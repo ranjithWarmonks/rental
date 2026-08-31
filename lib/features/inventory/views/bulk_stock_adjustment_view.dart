@@ -5,6 +5,8 @@ import '../models/stock_adjustment_model.dart';
 import '../services/inventory_service.dart';
 import '../services/stock_adjustment_service.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class BulkStockAdjustmentView extends StatefulWidget {
   const BulkStockAdjustmentView({super.key});
 
@@ -104,6 +106,8 @@ class _BulkStockAdjustmentViewState extends State<BulkStockAdjustmentView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -116,9 +120,9 @@ class _BulkStockAdjustmentViewState extends State<BulkStockAdjustmentView> {
         titleSpacing: 0,
         title: Row(
           children: [
-            const Text(
-              'Stock Adjustments',
-              style: TextStyle(
+            Text(
+              lang.text('bulk_stock_adjustment_title'),
+              style: const TextStyle(
                 fontFamily: 'Urbanist',
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

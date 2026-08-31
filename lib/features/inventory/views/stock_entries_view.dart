@@ -5,6 +5,8 @@ import '../models/stock_entry_model.dart';
 import '../services/stock_entry_service.dart';
 import 'add_stock_entry_view.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class StockEntriesView extends StatefulWidget {
   const StockEntriesView({super.key});
 
@@ -67,6 +69,8 @@ class _StockEntriesViewState extends State<StockEntriesView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -76,9 +80,9 @@ class _StockEntriesViewState extends State<StockEntriesView> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Stock Entries',
-          style: TextStyle(
+        title: Text(
+          lang.text('stock_entries'),
+          style: const TextStyle(
             fontFamily: 'Urbanist',
             fontWeight: FontWeight.bold,
             fontSize: 20,

@@ -10,6 +10,7 @@ import '../controllers/home_bloc.dart';
 import '../controllers/home_event.dart';
 import '../controllers/home_state.dart';
 import '../../notifications/views/notifications_view.dart';
+import 'package:rental/shared/localization/app_language_controller.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -82,6 +83,8 @@ class _DashboardViewState extends State<DashboardView> {
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
+          final lang = AppLanguageController();
+
           if (state.status == HomeStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(color: buttonColor1),
@@ -103,13 +106,13 @@ class _DashboardViewState extends State<DashboardView> {
               children: [
                 // Greeting Subtitle
                 AppText(
-                  'Good morning, ${data.userName}',
+                  '${lang.text('good_morning')}, ${data.userName}',
                   color: Colors.grey.shade600,
                   fontSize: 14,
                 ),
                 const SizedBox(height: 4),
                 AppText.h1(
-                  "Here's today's overview",
+                  lang.text('todays_overview'),
                   fontSize: 22,
                 ),
 
@@ -125,7 +128,7 @@ class _DashboardViewState extends State<DashboardView> {
                   childAspectRatio: 1.6,
                   children: [
                     _buildQuickActionCard(
-                      title: 'New Rental',
+                      title: lang.text('new_rental'),
                       icon: Icons.add_shopping_cart_rounded,
                       isPrimary: true,
                       onTap: () {
@@ -136,19 +139,19 @@ class _DashboardViewState extends State<DashboardView> {
                       },
                     ),
                     _buildQuickActionCard(
-                      title: 'New Sale',
+                      title: lang.text('new_sale'),
                       icon: Icons.point_of_sale_rounded,
                       isPrimary: false,
                       onTap: () {},
                     ),
                     _buildQuickActionCard(
-                      title: 'Return',
+                      title: lang.text('return'),
                       icon: Icons.assignment_return_outlined,
                       isPrimary: false,
                       onTap: () {},
                     ),
                     _buildQuickActionCard(
-                      title: 'Payment',
+                      title: lang.text('payment'),
                       icon: Icons.account_balance_wallet_outlined,
                       isPrimary: false,
                       onTap: () {},
@@ -168,19 +171,19 @@ class _DashboardViewState extends State<DashboardView> {
                   childAspectRatio: 1.5,
                   children: [
                     _buildMetricCard(
-                      label: "TODAY'S RENTALS",
+                      label: lang.text('todays_rentals'),
                       value: '${data.todayRentals}',
                       icon: Icons.shopping_cart_outlined,
                       iconColor: buttonColor1,
                     ),
                     _buildMetricCard(
-                      label: "TODAY'S RETURNS",
+                      label: lang.text('todays_returns'),
                       value: '${data.todayReturns}',
                       icon: Icons.keyboard_return_rounded,
                       iconColor: primaryColor,
                     ),
                     _buildMetricCard(
-                      label: "OVERDUE RENTALS",
+                      label: lang.text('overdue_rentals'),
                       value: '${data.overdueRentals}',
                       icon: Icons.warning_amber_rounded,
                       iconColor: const Color(0xFFDC2626),
@@ -189,7 +192,7 @@ class _DashboardViewState extends State<DashboardView> {
                       labelColor: const Color(0xFF991B1B),
                     ),
                     _buildMetricCard(
-                      label: "PENDING PAYMENTS",
+                      label: lang.text('pending_payments'),
                       value: data.pendingPaymentsAmount,
                       icon: Icons.account_balance_wallet_outlined,
                       iconColor: buttonColor1,
@@ -201,7 +204,7 @@ class _DashboardViewState extends State<DashboardView> {
                 const SizedBox(height: 28),
 
                 // Important Alerts Section
-                AppText.h2('Important Alerts', fontSize: 18),
+                AppText.h2(lang.text('important_alerts'), fontSize: 18),
                 const SizedBox(height: 14),
 
                 ...data.alerts.map((alert) => _buildAlertCard(alert)),
@@ -212,12 +215,12 @@ class _DashboardViewState extends State<DashboardView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AppText.h2('Recent Rentals', fontSize: 18),
+                    AppText.h2(lang.text('recent_rentals'), fontSize: 18),
                     TextButton(
                       onPressed: () {},
-                      child: const Text(
-                        'VIEW ALL',
-                        style: TextStyle(
+                      child: Text(
+                        lang.text('view_all'),
+                        style: const TextStyle(
                           color: buttonColor1,
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
@@ -245,9 +248,9 @@ class _DashboardViewState extends State<DashboardView> {
                         child: Row(
                           children: [
                             Expanded(flex: 3, child: AppText.caption('ID', fontWeight: FontWeight.bold)),
-                            Expanded(flex: 4, child: AppText.caption('Customer', fontWeight: FontWeight.bold)),
-                            Expanded(flex: 3, child: AppText.caption('Amount', fontWeight: FontWeight.bold)),
-                            Expanded(flex: 3, child: Align(alignment: Alignment.centerRight, child: AppText.caption('Status', fontWeight: FontWeight.bold))),
+                            Expanded(flex: 4, child: AppText.caption(lang.text('customer'), fontWeight: FontWeight.bold)),
+                            Expanded(flex: 3, child: AppText.caption(lang.text('amount'), fontWeight: FontWeight.bold)),
+                            Expanded(flex: 3, child: Align(alignment: Alignment.centerRight, child: AppText.caption(lang.text('status'), fontWeight: FontWeight.bold))),
                           ],
                         ),
                       ),

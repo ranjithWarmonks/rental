@@ -10,6 +10,7 @@ import 'package:rental/shared/widgets/app_button.dart';
 import 'package:rental/shared/widgets/app_text.dart';
 import 'package:rental/shared/widgets/app_text_field.dart';
 import 'package:rental/shared/utils/form_validators.dart';
+import 'package:rental/shared/localization/app_language_controller.dart';
 import '../models/rental_model.dart';
 import 'rental_summary_view.dart';
 
@@ -310,6 +311,7 @@ class _AddRentalViewState extends State<AddRentalView> {
   @override
   Widget build(BuildContext context) {
     final isEdit = widget.existingRental != null;
+    final lang = AppLanguageController();
 
     return Scaffold(
       backgroundColor: scaffoldColor,
@@ -321,7 +323,7 @@ class _AddRentalViewState extends State<AddRentalView> {
           onPressed: () => Navigator.pop(context),
         ),
         title: AppText.h2(
-          isEdit ? 'Edit Rental Order' : 'Create New Rental',
+          lang.text(isEdit ? 'edit_rental_header' : 'create_rental_header'),
           fontSize: 18,
         ),
       ),
@@ -479,7 +481,7 @@ class _AddRentalViewState extends State<AddRentalView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          AppText.h3('Customer Information', fontSize: 16),
+                          AppText.h3('Customer', fontSize: 16),
                           InkWell(
                             onTap: _openCustomerSelectionModal,
                             borderRadius: BorderRadius.circular(8),

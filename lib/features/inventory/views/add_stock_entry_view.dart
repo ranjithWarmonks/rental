@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rental/shared/theme/app_color.dart';
 import 'package:rental/shared/services/location_service.dart';
+import 'package:rental/shared/localization/app_language_controller.dart';
 import 'package:rental/features/auth/models/auth_models.dart';
 import '../models/inventory_models.dart';
 import '../models/stock_entry_model.dart';
@@ -121,6 +122,8 @@ class _AddStockEntryViewState extends State<AddStockEntryView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -133,10 +136,9 @@ class _AddStockEntryViewState extends State<AddStockEntryView> {
         titleSpacing: 0,
         title: Row(
           children: [
-
-            const Text(
-              'Add Stock Entries',
-              style: TextStyle(
+            Text(
+              lang.text('add_stock_entry_title'),
+              style: const TextStyle(
                 fontFamily: 'Urbanist',
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

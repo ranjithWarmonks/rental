@@ -4,6 +4,8 @@ import '../models/staff_model.dart';
 import '../services/staff_service.dart';
 import 'add_role_view.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class RolesManagementView extends StatefulWidget {
   const RolesManagementView({super.key});
 
@@ -69,6 +71,8 @@ class _RolesManagementViewState extends State<RolesManagementView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -78,9 +82,9 @@ class _RolesManagementViewState extends State<RolesManagementView> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Roles & Permissions',
-          style: TextStyle(
+        title: Text(
+          lang.text('roles_permissions'),
+          style: const TextStyle(
             fontFamily: 'Urbanist',
             fontWeight: FontWeight.bold,
             fontSize: 18,

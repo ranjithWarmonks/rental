@@ -11,6 +11,8 @@ import '../controllers/customer_state.dart';
 import '../models/customer_model.dart';
 import 'customer_detail_view.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class CustomersListView extends StatelessWidget {
   const CustomersListView({super.key});
 
@@ -65,6 +67,8 @@ class _CustomersListViewContentState extends State<_CustomersListViewContent> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -72,7 +76,7 @@ class _CustomersListViewContentState extends State<_CustomersListViewContent> {
         backgroundColor: scaffoldColor,
         elevation: 0,
         titleSpacing: 20,
-        title: const AppText.h1('Customers', fontSize: 24),
+        title: AppText.h1(lang.text('customers_title'), fontSize: 24),
         actions: [
           IconButton(
             icon: const Icon(Icons.person_add_alt_1_rounded, color: primaryColor, size: 24),

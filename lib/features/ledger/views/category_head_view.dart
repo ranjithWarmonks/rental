@@ -5,6 +5,8 @@ import 'package:rental/shared/widgets/app_text.dart';
 import '../models/ledger_models.dart';
 import '../services/category_head_service.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class CategoryHeadView extends StatefulWidget {
   const CategoryHeadView({super.key});
 
@@ -102,6 +104,7 @@ class _CategoryHeadViewState extends State<CategoryHeadView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
     final incomeCategories = _categories.where((c) => c.type.toLowerCase() == 'income').toList();
     final expenseCategories = _categories.where((c) => c.type.toLowerCase() == 'expense').toList();
 
@@ -116,8 +119,8 @@ class _CategoryHeadViewState extends State<CategoryHeadView> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const AppText(
-          'Category Head Management',
+        title: AppText(
+          lang.text('category_head'),
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),

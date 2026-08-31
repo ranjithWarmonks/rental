@@ -11,6 +11,7 @@ import '../controllers/rental_state.dart';
 import '../models/rental_model.dart';
 import 'add_rental_view.dart';
 import 'rental_detail_view.dart';
+import 'package:rental/shared/localization/app_language_controller.dart';
 
 class RentalsListView extends StatelessWidget {
   const RentalsListView({super.key});
@@ -54,6 +55,8 @@ class _RentalsListViewContentState extends State<_RentalsListViewContent> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -63,10 +66,14 @@ class _RentalsListViewContentState extends State<_RentalsListViewContent> {
         titleSpacing: 20,
         title: Row(
           children: [
-            CircleAvatar(
-              radius: 18,
-              backgroundColor: primaryColor.withValues(alpha: 0.1),
-              child: const Icon(Icons.person, color: primaryColor, size: 22),
+            Container(
+              width: 34,
+              height: 34,
+              decoration: BoxDecoration(
+                color: buttonColor1.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.business_center_rounded, color: buttonColor1, size: 20),
             ),
             const SizedBox(width: 10),
             const AppText.h3(
@@ -93,7 +100,7 @@ class _RentalsListViewContentState extends State<_RentalsListViewContent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText.h1('Rentals', fontSize: 24),
+                AppText.h1(lang.text('rentals_title'), fontSize: 24),
                 const SizedBox(height: 16),
 
                 // Search Bar + Filter Tune Button
@@ -110,11 +117,11 @@ class _RentalsListViewContentState extends State<_RentalsListViewContent> {
                         child: TextField(
                           controller: _searchController,
                           style: const TextStyle(fontFamily: 'Urbanist', fontSize: 14),
-                          onChanged: (query) {
-                            context.read<RentalBloc>().add(SearchRentals(query));
+                          onChanged: (val) {
+                            context.read<RentalBloc>().add(SearchRentals(val));
                           },
                           decoration: InputDecoration(
-                            hintText: 'Search rentals...',
+                            hintText: lang.text('search_rentals'),
                             hintStyle: TextStyle(
                               color: Colors.grey.shade400,
                               fontFamily: 'Urbanist',
@@ -255,9 +262,9 @@ class _RentalsListViewContentState extends State<_RentalsListViewContent> {
         },
         backgroundColor: buttonColor1,
         icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text(
-          'New Rental',
-          style: TextStyle(
+        label: Text(
+          lang.text('create_new_rental'),
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontFamily: 'Urbanist',

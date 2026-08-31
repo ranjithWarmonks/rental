@@ -8,6 +8,8 @@ import 'package:rental/shared/theme/app_color.dart';
 
 import 'package:rental/shared/utils/permission_manager.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class AppBottomNavBar extends StatelessWidget {
   final int currentIndex;
 
@@ -81,6 +83,8 @@ class AppBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (index) => _onTabTapped(context, index),
@@ -89,12 +93,12 @@ class AppBottomNavBar extends StatelessWidget {
       unselectedItemColor: Colors.grey.shade500,
       selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Urbanist', fontSize: 11),
       unselectedLabelStyle: const TextStyle(fontFamily: 'Urbanist', fontSize: 11),
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.business_center_outlined), activeIcon: Icon(Icons.business_center), label: 'Rentals'),
-        BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline_rounded, size: 28), activeIcon: Icon(Icons.add_circle_rounded, size: 28), label: 'Add'),
-        BottomNavigationBarItem(icon: Icon(Icons.people_outline_rounded), activeIcon: Icon(Icons.people), label: 'Customers'),
-        BottomNavigationBarItem(icon: Icon(Icons.more_horiz_rounded), activeIcon: Icon(Icons.more_horiz), label: 'More'),
+      items: [
+        BottomNavigationBarItem(icon: const Icon(Icons.home_outlined), activeIcon: const Icon(Icons.home), label: lang.text('nav_home')),
+        BottomNavigationBarItem(icon: const Icon(Icons.business_center_outlined), activeIcon: const Icon(Icons.business_center), label: lang.text('nav_rentals')),
+        BottomNavigationBarItem(icon: const Icon(Icons.add_circle_outline_rounded, size: 28), activeIcon: const Icon(Icons.add_circle_rounded, size: 28), label: lang.text('nav_add')),
+        BottomNavigationBarItem(icon: const Icon(Icons.people_outline_rounded), activeIcon: const Icon(Icons.people), label: lang.text('nav_customers')),
+        BottomNavigationBarItem(icon: const Icon(Icons.more_horiz_rounded), activeIcon: const Icon(Icons.more_horiz), label: lang.text('nav_more')),
       ],
     );
   }

@@ -6,6 +6,8 @@ import '../services/staff_service.dart';
 import 'add_staff_view.dart';
 import 'user_detail_view.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class StaffManagementView extends StatefulWidget {
   const StaffManagementView({super.key});
 
@@ -68,6 +70,8 @@ class _StaffManagementViewState extends State<StaffManagementView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -77,9 +81,9 @@ class _StaffManagementViewState extends State<StaffManagementView> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Staff & Users',
-          style: TextStyle(
+        title: Text(
+          lang.text('staff_users'),
+          style: const TextStyle(
             fontFamily: 'Urbanist',
             fontWeight: FontWeight.bold,
             fontSize: 18,

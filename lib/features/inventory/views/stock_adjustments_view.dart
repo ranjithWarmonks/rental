@@ -5,6 +5,8 @@ import '../models/stock_adjustment_model.dart';
 import '../services/stock_adjustment_service.dart';
 import 'bulk_stock_adjustment_view.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class StockAdjustmentsView extends StatefulWidget {
   const StockAdjustmentsView({super.key});
 
@@ -81,6 +83,8 @@ class _StockAdjustmentsViewState extends State<StockAdjustmentsView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -90,9 +94,9 @@ class _StockAdjustmentsViewState extends State<StockAdjustmentsView> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Stock Adjustments',
-          style: TextStyle(
+        title: Text(
+          lang.text('stock_adjustments'),
+          style: const TextStyle(
             fontFamily: 'Urbanist',
             fontWeight: FontWeight.bold,
             fontSize: 20,

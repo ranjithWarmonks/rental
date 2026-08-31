@@ -12,6 +12,8 @@ import '../models/inventory_models.dart';
 import 'add_edit_item_view.dart';
 import 'item_availability_view.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class ItemsListView extends StatefulWidget {
   const ItemsListView({super.key});
 
@@ -63,8 +65,8 @@ class _ItemsListViewState extends State<ItemsListView> {
   void _confirmDelete(InventoryItemModel item) {
     AppDialog.show(
       context: context,
-      title: 'Delete Item?',
-      message: 'Are you sure you want to delete "${item.name}"? This action cannot be undone.',
+      title: 'Delete Item',
+      message: 'Are you sure you want to delete "${item.name}"?',
       type: AppDialogType.error,
       primaryButtonText: 'Delete',
       secondaryButtonText: 'Cancel',
@@ -77,6 +79,8 @@ class _ItemsListViewState extends State<ItemsListView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -86,8 +90,8 @@ class _ItemsListViewState extends State<ItemsListView> {
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: primaryColor, size: 20),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const AppText(
-          'Inventory Items',
+        title: AppText(
+          lang.text('inventory_title'),
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),

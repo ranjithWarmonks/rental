@@ -6,6 +6,7 @@ import 'package:rental/features/rentals/views/add_rental_view.dart';
 import 'package:rental/shared/theme/app_color.dart';
 import 'package:rental/shared/widgets/app_button.dart';
 import 'package:rental/shared/widgets/app_text.dart';
+import 'package:rental/shared/localization/app_language_controller.dart';
 
 class ItemAvailabilityView extends StatefulWidget {
   final int? initialItemId;
@@ -183,6 +184,8 @@ class _ItemAvailabilityViewState extends State<ItemAvailabilityView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -192,7 +195,7 @@ class _ItemAvailabilityViewState extends State<ItemAvailabilityView> {
           icon: const Icon(Icons.arrow_back, color: primaryColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const AppText.h1('Availability Checker', fontSize: 22),
+        title: AppText.h1(lang.text('availability_checker'), fontSize: 22),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

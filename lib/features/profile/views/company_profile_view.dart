@@ -8,6 +8,8 @@ import 'package:rental/shared/utils/form_validators.dart';
 import '../models/company_profile_model.dart';
 import '../services/company_profile_service.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class CompanyProfileView extends StatefulWidget {
   const CompanyProfileView({super.key});
 
@@ -16,16 +18,16 @@ class CompanyProfileView extends StatefulWidget {
 }
 
 class _CompanyProfileViewState extends State<CompanyProfileView> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late TextEditingController _companyNameController;
-  late TextEditingController _ownerNameController;
-  late TextEditingController _businessTypeController;
-  late TextEditingController _phoneController;
-  late TextEditingController _emailController;
-  late TextEditingController _addressController;
-  late TextEditingController _pincodeController;
-  late TextEditingController _gstController;
+  final TextEditingController _companyNameController = TextEditingController();
+  final TextEditingController _ownerNameController = TextEditingController();
+  final TextEditingController _businessTypeController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _pincodeController = TextEditingController();
+  final TextEditingController _gstController = TextEditingController();
 
   bool _isLoading = true;
   bool _isSaving = false;
@@ -33,19 +35,10 @@ class _CompanyProfileViewState extends State<CompanyProfileView> {
   @override
   void initState() {
     super.initState();
-    _companyNameController = TextEditingController();
-    _ownerNameController = TextEditingController();
-    _businessTypeController = TextEditingController();
-    _phoneController = TextEditingController();
-    _emailController = TextEditingController();
-    _addressController = TextEditingController();
-    _pincodeController = TextEditingController();
-    _gstController = TextEditingController();
-
-    _loadCompanyProfile();
+    _fetchCompanyProfile();
   }
 
-  Future<void> _loadCompanyProfile() async {
+  Future<void> _fetchCompanyProfile() async {
     final profile = await CompanyProfileService().getCompanyProfile();
     if (mounted) {
       setState(() {
@@ -57,6 +50,10 @@ class _CompanyProfileViewState extends State<CompanyProfileView> {
         _addressController.text = profile.registeredAddress;
         _pincodeController.text = profile.pincode;
         _gstController.text = profile.gstNumber ?? '';
+        _isLoading = false;
+      });
+    } else if (mounted) {
+      setState(() {
         _isLoading = false;
       });
     }
@@ -103,11 +100,10 @@ class _CompanyProfileViewState extends State<CompanyProfileView> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            success ? 'Company details saved successfully!' : 'Failed to save company details.',
+            success ? 'Company Profile updated successfully' : 'Failed to update Company Profile',
             style: const TextStyle(fontFamily: 'Urbanist'),
           ),
           backgroundColor: success ? buttonColor1 : Colors.redAccent,
-          behavior: SnackBarBehavior.floating,
         ),
       );
 
@@ -119,6 +115,8 @@ class _CompanyProfileViewState extends State<CompanyProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -128,7 +126,7 @@ class _CompanyProfileViewState extends State<CompanyProfileView> {
           icon: const Icon(Icons.arrow_back_rounded, color: primaryColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const AppText.h2('Company Profile', fontSize: 20),
+        title: AppText.h2(lang.text('company_profile'), fontSize: 20),
         centerTitle: false,
       ),
       body: _isLoading

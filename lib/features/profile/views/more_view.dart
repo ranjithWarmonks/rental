@@ -22,6 +22,7 @@ import 'roles_management_view.dart';
 import '../../notifications/views/notifications_view.dart';
 import '../../../shared/utils/permission_manager.dart';
 import '../../auth/models/auth_models.dart';
+import '../../../shared/localization/app_language_controller.dart';
 
 class MoreView extends StatefulWidget {
   const MoreView({super.key});
@@ -102,8 +103,87 @@ class _MoreViewState extends State<MoreView> {
     _loadUserProfile();
   }
 
+  void _showLanguageSelectionModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        final langController = AppLanguageController();
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        langController.text('select_language'),
+                        style: const TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: primaryColor,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close_rounded, size: 20),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  const Divider(height: 1),
+                  const SizedBox(height: 8),
+                  ...AppLanguageController.supportedLanguages.map((langOption) {
+                    final isSelected = langOption.code == langController.currentLanguageCode;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: Material(
+                        color: isSelected ? buttonColor1.withValues(alpha: 0.08) : Colors.transparent,
+                        borderRadius: BorderRadius.circular(12),
+                        child: ListTile(
+                          onTap: () {
+                            langController.changeLanguage(langOption.code);
+                            Navigator.pop(context);
+                          },
+                          leading: Text(langOption.flag, style: const TextStyle(fontSize: 24)),
+                          title: Text(
+                            '${langOption.nativeName} (${langOption.name})',
+                            style: TextStyle(
+                              fontFamily: 'Urbanist',
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                              color: isSelected ? buttonColor1 : primaryColor,
+                            ),
+                          ),
+                          trailing: isSelected
+                              ? const Icon(Icons.check_circle_rounded, color: buttonColor1)
+                              : null,
+                        ),
+                      ),
+                    );
+                  }),
+                  const SizedBox(height: 12),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -111,7 +191,7 @@ class _MoreViewState extends State<MoreView> {
         backgroundColor: scaffoldColor,
         elevation: 0,
         titleSpacing: 20,
-        title: const AppText.h1('More Options', fontSize: 24),
+        title: AppText.h1(lang.text('more_options'), fontSize: 24),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -172,7 +252,7 @@ class _MoreViewState extends State<MoreView> {
 
               const SizedBox(height: 20),
 
-              AppText.caption('ACCOUNT & APP SETTINGS', fontWeight: FontWeight.bold, letterSpacing: 0.5),
+              AppText.caption(lang.text('account_settings'), fontWeight: FontWeight.bold, letterSpacing: 0.5),
               const SizedBox(height: 10),
 
               // Menu Group Container
@@ -186,17 +266,24 @@ class _MoreViewState extends State<MoreView> {
                 child: Column(
                   children: [
                     _buildTile(
+                      icon: Icons.language_rounded,
+                      title: lang.text('language'),
+                      subtitle: '${lang.currentLanguage.flag} ${lang.currentLanguage.nativeName} (${lang.currentLanguage.name})',
+                      onTap: () => _showLanguageSelectionModal(context),
+                    ),
+                    const Divider(height: 1, indent: 50),
+                    _buildTile(
                       icon: Icons.person_outline_rounded,
-                      title: 'My Profile',
-                      subtitle: 'Edit personal details and preferences',
+                      title: lang.text('my_profile'),
+                      subtitle: lang.text('my_profile_sub'),
                       onTap: _openProfileView,
                     ),
                     if (_hasPerm('user-view')) ...[
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.people_outline_rounded,
-                        title: 'Staff & Users',
-                        subtitle: 'Add & manage staff members, roles, & locations',
+                        title: lang.text('staff_users'),
+                        subtitle: lang.text('staff_users_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -211,8 +298,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.admin_panel_settings_outlined,
-                        title: 'Roles & Permissions',
-                        subtitle: 'Create & edit roles with menu-level view, add, edit, & delete access',
+                        title: lang.text('roles_permissions'),
+                        subtitle: lang.text('roles_permissions_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -227,8 +314,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.category_outlined,
-                        title: 'Category Head Management',
-                        subtitle: 'Add & manage Income and Expense categories',
+                        title: lang.text('category_head'),
+                        subtitle: lang.text('category_head_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -243,8 +330,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.grid_view_rounded,
-                        title: 'Item Categories',
-                        subtitle: 'Manage rental item categories & subcategories',
+                        title: lang.text('item_categories'),
+                        subtitle: lang.text('item_categories_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -259,8 +346,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.straighten_rounded,
-                        title: 'Units of Measure',
-                        subtitle: 'Manage inventory item units & abbreviations',
+                        title: lang.text('units'),
+                        subtitle: lang.text('units_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -275,8 +362,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.storefront_rounded,
-                        title: 'Store & Godown Locations',
-                        subtitle: 'Add & manage stores, warehouses, and godowns',
+                        title: lang.text('store_locations'),
+                        subtitle: lang.text('store_locations_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -291,8 +378,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.tune_rounded,
-                        title: 'Stock Adjustments',
-                        subtitle: 'Bulk manual stock addition, deduction, & set values',
+                        title: lang.text('stock_adjustments'),
+                        subtitle: lang.text('stock_adjustments_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -307,8 +394,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.move_to_inbox_rounded,
-                        title: 'Stock Entries',
-                        subtitle: 'Record inward stock, opening stock, & purchases',
+                        title: lang.text('stock_entries'),
+                        subtitle: lang.text('stock_entries_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -323,8 +410,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.event_available_rounded,
-                        title: 'Availability Checker',
-                        subtitle: 'Check item free stock for rental date ranges',
+                        title: lang.text('availability_checker'),
+                        subtitle: lang.text('availability_checker_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -339,8 +426,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.inventory_2_outlined,
-                        title: 'Inventory Items',
-                        subtitle: 'Manage items, rates, and stock',
+                        title: lang.text('inventory_items'),
+                        subtitle: lang.text('inventory_items_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -355,8 +442,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.business_outlined,
-                        title: 'Company Profile',
-                        subtitle: _user.companyName.isNotEmpty ? _user.companyName : 'Manage company details',
+                        title: lang.text('company_profile'),
+                        subtitle: _user.companyName.isNotEmpty ? _user.companyName : lang.text('company_profile_sub'),
                         onTap: () async {
                           await Navigator.push(
                             context,
@@ -372,8 +459,8 @@ class _MoreViewState extends State<MoreView> {
                       const Divider(height: 1, indent: 50),
                       _buildTile(
                         icon: Icons.notifications_none_rounded,
-                        title: 'Notifications',
-                        subtitle: 'Rental alerts and return reminders',
+                        title: lang.text('notifications'),
+                        subtitle: lang.text('notifications_sub'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -387,12 +474,12 @@ class _MoreViewState extends State<MoreView> {
                     const Divider(height: 1, indent: 50),
                     _buildTile(
                       icon: Icons.settings_outlined,
-                      title: 'App Settings',
-                      subtitle: 'Currency, print layouts',
+                      title: lang.text('app_settings'),
+                      subtitle: lang.text('app_settings_sub'),
                       onTap: () {
                         AppDialog.show(
                           context: context,
-                          title: 'Settings',
+                          title: lang.text('app_settings'),
                           message: 'Default Currency: ₹ (INR)',
                         );
                       },
@@ -400,12 +487,12 @@ class _MoreViewState extends State<MoreView> {
                     const Divider(height: 1, indent: 50),
                     _buildTile(
                       icon: Icons.help_outline_rounded,
-                      title: 'Help & Support',
-                      subtitle: 'Contact support team & FAQs',
+                      title: lang.text('help_support'),
+                      subtitle: lang.text('help_support_sub'),
                       onTap: () {
                         AppDialog.show(
                           context: context,
-                          title: 'Support',
+                          title: lang.text('help_support'),
                           message: 'Email: support@propmanager.com\nPhone: +1 (800) 123-4567',
                         );
                       },
@@ -434,18 +521,18 @@ class _MoreViewState extends State<MoreView> {
                     ),
                     child: const Icon(Icons.logout_rounded, color: Color(0xFFDC2626), size: 20),
                   ),
-                  title: const Text(
-                    'Log Out',
-                    style: TextStyle(
+                  title: Text(
+                    lang.text('log_out'),
+                    style: const TextStyle(
                       fontFamily: 'Urbanist',
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                       color: Color(0xFFDC2626),
                     ),
                   ),
-                  subtitle: const Text(
-                    'Sign out from this device',
-                    style: TextStyle(
+                  subtitle: Text(
+                    lang.text('log_out_sub'),
+                    style: const TextStyle(
                       fontFamily: 'Urbanist',
                       fontSize: 12,
                       color: Colors.grey,

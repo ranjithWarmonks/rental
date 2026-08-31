@@ -6,6 +6,8 @@ import 'package:rental/shared/widgets/app_text_field.dart';
 import '../models/user_profile_model.dart';
 import '../services/user_profile_service.dart';
 
+import 'package:rental/shared/localization/app_language_controller.dart';
+
 class ProfileView extends StatefulWidget {
   final UserProfileModel userProfile;
 
@@ -66,6 +68,8 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLanguageController();
+
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(
@@ -75,7 +79,7 @@ class _ProfileViewState extends State<ProfileView> {
           icon: const Icon(Icons.arrow_back, color: primaryColor),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const AppText.h2('My Profile', fontSize: 20),
+        title: AppText.h2(lang.text('my_profile'), fontSize: 20),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
